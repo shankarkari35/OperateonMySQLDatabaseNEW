@@ -26,6 +26,9 @@ public class MovieListingActivity extends AppCompatActivity {
     private static final String KEY_DATA = "data";
     private static final String KEY_MOVIE_ID = "movie_id";
     private static final String KEY_MOVIE_NAME = "movie_name";
+    private static final String KEY_GENER= "gener";
+    private static final String KEY_YEAR = "year";
+
     private static final String BASE_URL = "https://chandansatyendraprasad.000webhostapp.com/test_data/";
     private ArrayList<HashMap<String, String>> movieList;
     private ListView movieListView;
@@ -71,6 +74,7 @@ public class MovieListingActivity extends AppCompatActivity {
                         JSONObject movie = movies.getJSONObject(i);
                         Integer movieId = movie.getInt(KEY_MOVIE_ID);
                         String movieName = movie.getString(KEY_MOVIE_NAME);
+
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put(KEY_MOVIE_ID, movieId.toString());
                         map.put(KEY_MOVIE_NAME, movieName);
@@ -92,6 +96,19 @@ public class MovieListingActivity extends AppCompatActivity {
             });
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 20) {
+            // If the result code is 20 that means that
+            // the user has deleted/updated the movie.
+            // So refresh the movie listing
+            Intent intent = getIntent();
+            finish();
+            startActivity(intent);
+        }
     }
 
     /**
@@ -129,19 +146,6 @@ public class MovieListingActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 20) {
-            // If the result code is 20 that means that
-            // the user has deleted/updated the movie.
-            // So refresh the movie listing
-            Intent intent = getIntent();
-            finish();
-            startActivity(intent);
-        }
     }
 
 }
